@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 	"text/template"
 
 	"github.com/go-chi/chi/v5"
@@ -83,5 +84,5 @@ func (s *Server) getAuthCallbackFunction(w http.ResponseWriter, r *http.Request)
 	}
 	fmt.Println(user)
 
-	http.Redirect(w, r, "http://localhost:5173", http.StatusFound)
+	http.Redirect(w, r, "http://localhost:5173/dashboard?name="+url.QueryEscape(user.Name), http.StatusFound)
 }

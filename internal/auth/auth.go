@@ -37,6 +37,6 @@ func NewAuth() {
 	gothic.Store = store
 
 	goth.UseProviders(
-		google.New(googleClientID, googleClientSecret, googleRedirectURL),
+		google.New(googleClientID, googleClientSecret, googleRedirectURL, "email", "profile"),
 	)
 }
