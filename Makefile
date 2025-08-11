@@ -11,7 +11,12 @@ build:
 
 # Run the application
 run:
-	@go run cmd/api/main.go
+	@echo "Starting backend..."
+	@trap 'kill 0' INT; \
+	go run cmd/api/main.go & \
+	( cd client && npm run dev ) & \
+	wait
+
 # Create DB container
 docker-run:
 	@if docker compose up --build 2>/dev/null; then \
@@ -46,15 +51,20 @@ clean:
 
 # Live Reload
 watch:
+	@trap 'kill 0' INT; \
 	@if command -v air > /dev/null; then \
             air; \
             echo "Watching...";\
+						( cd client && npm run dev ) & \
+            wait; \
         else \
             read -p "Go's 'air' is not installed on your machine. Do you want to install it? [Y/n] " choice; \
             if [ "$$choice" != "n" ] && [ "$$choice" != "N" ]; then \
                 go install github.com/air-verse/air@latest; \
                 air; \
                 echo "Watching...";\
+								( cd client && npm run dev ) & \
+            		wait; \
             else \
                 echo "You chose not to install air. Exiting..."; \
                 exit 1; \

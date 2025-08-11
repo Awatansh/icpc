@@ -11,12 +11,12 @@ import (
 )
 
 const (
-	key    = "randomestring"
 	maxAge = 86400 * 30
 	IsProd = false
 )
 
 func NewAuth() {
+	key := os.Getenv("LOGIN_KEY")
 	err := godotenv.Load()
 	if err != nil {
 		panic(err)
