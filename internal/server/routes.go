@@ -124,7 +124,8 @@ func (s *Server) RegisterRoutes() http.Handler {
 		_ = session.Save(r, w)
 
 		// Redirect to a protected page
-		http.Redirect(w, r, "/profile", http.StatusTemporaryRedirect)
+		redirectURL := fmt.Sprintf("http://localhost:5173/dashboard")
+		http.Redirect(w, r, redirectURL, http.StatusTemporaryRedirect)
 	})
 
 	// Protected route
