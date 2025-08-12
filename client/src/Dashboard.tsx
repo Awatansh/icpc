@@ -23,9 +23,19 @@ const Dashboard: React.FC = () => {
   }, [navigate])
 
   const handleLogout = () => {
-    localStorage.removeItem('name')
-    navigate('/')
-  }
+  fetch("http://localhost:3000/logout", {
+    method: "GET",
+    credentials: "include"
+  })
+    .then(() => {
+      localStorage.removeItem('name')
+      navigate('/')
+    })
+    .catch(err => {
+      console.error("Logout failed:", err)
+    })
+}
+
 
   return (
     <div>
