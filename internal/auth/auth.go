@@ -16,8 +16,8 @@ const (
 )
 
 func NewAuth() {
-	key := os.Getenv("LOGIN_KEY")
 	err := godotenv.Load()
+	key := os.Getenv("LOGIN_KEY")
 	if err != nil {
 		panic(err)
 	}
