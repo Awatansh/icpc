@@ -1,15 +1,22 @@
 services:
-  psql_bp:
-    image: postgres:latest
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${BLUEPRINT_DB_DATABASE}
-      POSTGRES_USER: ${BLUEPRINT_DB_USERNAME}
-      POSTGRES_PASSWORD: ${BLUEPRINT_DB_PASSWORD}
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "${BLUEPRINT_DB_PORT}:5432"
+      - "3000:3000"
     volumes:
-      - psql_volume_bp:/var/lib/postgresql/data
+      - .:/app
+    depends_on:
+      - frontend
 
-volumes:
-  psql_volume_bp:
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+    stdin_open: true
+    tty: true
